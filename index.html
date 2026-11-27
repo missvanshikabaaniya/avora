@@ -57,6 +57,21 @@ backdrop-filter: blur(18px);
       background: #7740ff; filter: blur(160px); opacity: .19; left: 50%;
       top: -180px; transform: translateX(-50%); pointer-events: none;
     }
+.hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(149,107,255,.22), transparent 70%);
+  filter: blur(35px);
+  z-index: -1;
+  pointer-events: none;
+}
     .tag {
       display: inline-block; border: 1px solid rgba(166,126,255,.4);
       background: rgba(128,82,255,.1); color: #c5adff; border-radius: 30px;
