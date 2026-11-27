@@ -444,7 +444,45 @@ body::before {
       <button onclick="searchNow()">Explore ↗</button>
     </div>
   </section>
-  
+  <section class="scholarship-finder" id="scholarship-finder">
+  <div class="section-head">
+    <h2>🎓 Smart Scholarship Finder</h2>
+    <p>Find scholarship opportunities that may fit your education journey.</p>
+  </div>
+
+  <div class="finder-box">
+    <label for="studyLevel">What are you currently studying?</label>
+    <select id="studyLevel">
+      <option value="">Select your level</option>
+      <option value="school">Class 9–10</option>
+      <option value="senior">Class 11–12</option>
+      <option value="college">College / University</option>
+    </select>
+
+    <label for="studyState">Which state do you study in?</label>
+    <select id="studyState">
+      <option value="">Select your state</option>
+      <option value="up">Uttar Pradesh</option>
+      <option value="other">Another Indian state</option>
+    </select>
+
+    <button type="button" onclick="findScholarships()">
+      Find Scholarships ↗
+    </button>
+
+    <div id="scholarshipResults" aria-live="polite"></div>
+
+    <p class="finder-note">
+      This finder provides guidance, not confirmed eligibility.
+      Always verify current rules and deadlines on the official portal.
+    </p>
+
+    <a href="https://scholarships.gov.in/All-Scholarships"
+       target="_blank" rel="noopener noreferrer">
+      Visit Official National Scholarship Portal ↗
+    </a>
+  </div>
+</section>
 
   <section class="section" id="explore">
     <div class="section-head">
