@@ -157,6 +157,110 @@
       .card p { min-height: auto; }
       footer { padding: 25px 6%; }
     }
+
+
+/* AVORA — DARK COSMIC EXPERIENCE */
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(111, 61, 210, 0.22), transparent 48%),
+    radial-gradient(ellipse at 0% 55%, rgba(55, 100, 190, 0.10), transparent 40%),
+    linear-gradient(145deg, #080713, #100b20 55%, #080713);
+}
+
+.hero {
+  min-height: 590px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 110px;
+  padding-bottom: 110px;
+}
+
+.glow {
+  width: 550px;
+  height: 450px;
+  background: #864cff;
+  filter: blur(145px);
+  opacity: .25;
+  animation: cosmicGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes cosmicGlow {
+  from {
+    opacity: .15;
+    transform: translateX(-50%) scale(.9);
+  }
+  to {
+    opacity: .32;
+    transform: translateX(-50%) scale(1.15);
+  }
+}
+
+.tag {
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 25px rgba(149,107,255,.12);
+}
+
+.hero h1 {
+  text-shadow: 0 0 45px rgba(149,107,255,.12);
+}
+
+.gradient {
+  background: linear-gradient(
+    100deg,
+    #b9a0ff,
+    #f2d8ff,
+    #a5c9ff,
+    #b9a0ff
+  );
+  background-size: 250% auto;
+  animation: gradientFlow 5s linear infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@keyframes gradientFlow {
+  to {
+    background-position: 250% center;
+  }
+}
+
+.search {
+  background: rgba(24, 19, 42, .75);
+  backdrop-filter: blur(18px);
+  border-color: rgba(177, 145, 255, .25);
+  box-shadow: 0 12px 45px rgba(0,0,0,.25);
+}
+
+.search button,
+.navbutton {
+  background: linear-gradient(110deg, #8155ef, #ad83ff);
+  box-shadow: 0 5px 22px rgba(129,85,239,.25);
+  transition: .3s ease;
+}
+
+.search button:hover,
+.navbutton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(149,107,255,.4);
+}
+
+@media(max-width:700px) {
+  .hero {
+    min-height: 540px;
+    padding-top: 85px;
+    padding-bottom: 85px;
+  }
+
+  .glow {
+    width: 330px;
+    height: 300px;
+  }
+}
+
   </style>
 </head>
 <body>
