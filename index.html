@@ -705,6 +705,58 @@ Format: Subject | Chapter | Hours | Priority (High/Medium/Low)
   }
 }
 
+
+
+/* Avora Pink Gold Paper Aesthetic */
+
+#exam-paper-content {
+  background-color: #F9DCE7 !important;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    #EBC2D1 32px
+  ) !important;
+  color: #171319 !important;
+  border: 2px solid #C5A04B;
+  border-radius: 14px;
+  padding: 24px;
+  font-family: Georgia, serif;
+}
+
+#exam-paper-content h4 {
+  color: #A77D31 !important;
+  border-bottom: 1px solid #C5A04B;
+  padding-bottom: 10px;
+}
+
+#exam-paper-content .exam-task {
+  background: rgba(255,255,255,0.65) !important;
+  color: #171319 !important;
+  border: 1px solid #D6B66B !important;
+  border-radius: 10px;
+  padding: 14px !important;
+  margin: 10px 0;
+  box-shadow: 0 2px 6px rgba(120,80,50,0.08);
+}
+
+#exam-paper-content .exam-task label {
+  color: #171319 !important;
+  font-weight: 600;
+}
+
+#exam-paper-content .exam-task input {
+  accent-color: #B28A35;
+}
+
+@media print {
+  #exam-paper-content {
+    background-color: #F9DCE7 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+
 </style>
 
 <script>
