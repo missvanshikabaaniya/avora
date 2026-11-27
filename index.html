@@ -193,11 +193,25 @@ backdrop-filter: blur(18px);
     .feature div { font-size: 27px; }
     .feature h3 { margin: 15px 0 9px; }
     .feature p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
     footer {
-      border-top: 1px solid var(--border); padding: 28px 8%; display: flex;
-      justify-content: space-between; flex-wrap: wrap; gap: 15px;
-      color: var(--muted); font-size: 13px;
-    }
+  border-top: 1px solid rgba(160, 130, 255, 0.22);
+  padding: 35px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: #b8b0cc;
+  font-size: 13px;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 15, 38, 0.45),
+    rgba(8, 7, 19, 0.85)
+  );
+  backdrop-filter: blur(12px);
+}
+
     @media(max-width:700px) {
       nav { padding: 18px 6%; }
       .navlinks { gap: 12px; }
