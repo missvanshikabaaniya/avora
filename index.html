@@ -593,94 +593,250 @@ Format: Subject | Chapter | Hours | Priority (High/Medium/Low)
 </style>
 
 <script>
+
+
+
 (() => {
   const section = document.getElementById("avora-exam");
   if (!section || section.dataset.ready) return;
   section.dataset.ready = "true";
 
-  const planner = section.querySelector("#exam-planner");
-  const category = section.querySelector("#exam-category");
-  const form = section.querySelector("#exam-form");
-  const roadmap = section.querySelector("#exam-roadmap");
-  const tasks = section.querySelector("#exam-tasks");
+  const $ = id => section.querySelector("#" + id);
+  const form = $("exam-form");
+  const planner = $("exam-planner");
+  const roadmap = $("exam-roadmap");
+  const tasksBox = $("exam-tasks");
+  const storageKey = "avora_smart_roadmap_v2";
+
+  $("syllabus-mode").addEventListener("change", () => {
+    $("official-source-box").hidden =
+      $("syllabus-mode").value !== "official";
+  });
 
   section.querySelectorAll(".exam-card").forEach(card => {
     card.addEventListener("click", () => {
-      category.value = card.dataset.category;
+      $("exam-category").value = card.dataset.category;
       planner.hidden = false;
       planner.scrollIntoView({ behavior: "smooth" });
     });
   });
 
-  section.querySelector("#open-exam-planner")
-    .addEventListener("click", () => {
-      planner.hidden = false;
-      planner.scrollIntoView({ behavior: "smooth" });
+  $("open-exam-planner").addEventListener("click", () => {
+    planner.hidden = false;
+    planner.scrollIntoView({ behavior: "smooth" });
+  });
+
+  function update(plan) {
+    const all = plan.days.flatMap(day => day.tasks);
+    const done = all.filter(task => task.done).length;
+    const percent = all.length
+      ? Math.round(done / all.length * 100) : 0;
+
+    $("exam-progress-fill").style.width = percent + "%";
+    $("exam-progress-text").textContent =
+      percent + "% completed (" + done + "/" + all.length + ")";
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(plan));
+    } catch (error) {
+      console.error("Could not save roadmap", error);
+    }
+  }
+
+  function render(plan) {
+    tasksBox.replaceChildren();
+
+    $("exam-summary").textContent =
+      plan.exam + " • " + plan.category +
+      " • " + plan.dailyHours + " hours/day";
+
+    plan.days.forEach((day, index) => {
+      const heading = document.createElement("h4");
+      heading.textContent = "Day " + (index + 1) + " • " + day.date;
+      tasksBox.append(heading);
+
+      day.tasks.forEach((task, taskIndex) => {
+        const row = document.createElement("div");
+        row.className = "exam-task";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.done;
+        checkbox.id = "avora-task-" + index + "-" + taskIndex;
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.textContent =
+          task.title + " • " + task.hours + " hours";
+
+        checkbox.addEventListener("change", () => {
+          task.done = checkbox.checked;
+          update(plan);
+        });
+
+        row.append(checkbox, label);
+        tasksBox.append(row);
+      });
     });
 
-  function updateProgress() {
-    const boxes = [...tasks.querySelectorAll("input[type=checkbox]")];
-    const completed = boxes.filter(box => box.checked).length;
-    const percent = Math.round(completed / boxes.length * 100);
-
-    section.querySelector("#exam-progress-fill").style.width =
-      percent + "%";
-    section.querySelector("#exam-progress-text").textContent =
-      percent + "% completed (" + completed + "/" +
-      boxes.length + " tasks)";
+    form.hidden = true;
+    roadmap.hidden = false;
+    update(plan);
   }
 
   form.addEventListener("submit", event => {
     event.preventDefault();
 
-    const exam = section.querySelector("#exam-name").value.trim();
-    const subjectText = section.querySelector("#exam-subjects").value.trim();
-    const subjects = subjectText.split(",").map(s => s.trim()).filter(Boolean);
+    const exam = $("exam-name").value.trim();
+    const category = $("exam-category").value;
+    const dailyHours = Number($("daily-hours").value);
+    const deadline = $("exam-date").value;
+    const lines = $("chapter-list").value.trim().split("\n");
 
-    if (!exam || !subjects.length) return;
+    if (!exam || !category || dailyHours <= 0) {
+      alert("Please complete the exam details.");
+      return;
+    }
 
-    section.querySelector("#exam-summary").textContent =
-      exam + " • " + category.value;
-
-    const taskNames = [
-      "Find and review the official syllabus",
-      "Divide subjects into smaller topics",
-      "Create a weekly study timetable",
-      "Study and practise one topic at a time",
-      "Revise completed topics and review progress"
-    ];
-
-    tasks.replaceChildren();
-
-    taskNames.forEach((task, index) => {
-      const row = document.createElement("div");
-      row.className = "exam-task";
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.id = "avora-task-" + index;
-      checkbox.addEventListener("change", updateProgress);
-
-      const label = document.createElement("label");
-      label.htmlFor = checkbox.id;
-      label.textContent = task;
-
-      row.append(checkbox, label);
-      tasks.append(row);
+    const chapters = lines.map(line => {
+      const p = line.split("|").map(x => x.trim());
+      return {
+        subject: p[0],
+        chapter: p[1],
+        hours: Number(p[2]),
+        priority: (p[3] || "Medium").toLowerCase()
+      };
     });
 
-    form.hidden = true;
-    roadmap.hidden = false;
-    updateProgress();
+    if (chapters.some(c =>
+      !c.subject || !c.chapter ||
+      !Number.isFinite(c.hours) || c.hours <= 0 ||
+      !["high", "medium", "low"].includes(c.priority)
+    )) {
+      alert("Check chapter format: Subject | Chapter | Hours | Priority");
+      return;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (deadline && new Date(deadline + "T00:00:00") <= today) {
+      alert("Choose a future exam date.");
+      return;
+    }
+
+    const totalDays = deadline
+      ? Math.ceil((new Date(deadline + "T00:00:00") - today) / 86400000)
+      : 30;
+
+    chapters.sort((a, b) => {
+      const rank = { high: 0, medium: 1, low: 2 };
+      return rank[a.priority] - rank[b.priority];
+    });
+
+    const days = Array.from({ length: totalDays }, (_, i) => {
+      const date = new Date(today);
+      date.setDate(date.getDate() + i);
+      return {
+        date: date.toLocaleDateString("en-IN", {
+          day: "numeric", month: "short"
+        }),
+        tasks: [],
+        used: 0
+      };
+    });
+
+    let dayIndex = 0;
+
+    for (const chapter of chapters) {
+      let remaining = chapter.hours;
+      let part = 1;
+
+      while (remaining > 0.001 && dayIndex < days.length) {
+        const day = days[dayIndex];
+        const free = dailyHours - day.used;
+
+        if (free <= 0.001) {
+          dayIndex++;
+          continue;
+        }
+
+        const allocated = Math.min(remaining, free);
+
+        day.tasks.push({
+          title: chapter.subject + " — " + chapter.chapter +
+            " (Part " + part + ", " + chapter.priority + " priority)",
+          hours: Number(allocated.toFixed(1)),
+          done: false
+        });
+
+        day.used += allocated;
+        remaining -= allocated;
+        part++;
+
+        if (remaining > 0.001) dayIndex++;
+      }
+
+      if (remaining > 0.001) {
+        alert("Not enough study time before the exam. Increase daily hours or choose a later date.");
+        return;
+      }
+    }
+
+    days.forEach((day, index) => {
+      if ((index + 1) % 7 === 0) {
+        const free = dailyHours - day.used;
+        if (free >= 0.5) {
+          const hours = Math.min(1, free);
+          day.tasks.push({
+            title: "Weekly revision and practice",
+            hours,
+            done: false
+          });
+          day.used += hours;
+        }
+      }
+    });
+
+    const last = days[days.length - 1];
+    if (last && dailyHours - last.used >= 0.5) {
+      last.tasks.push({
+        title: "Final revision and self-assessment",
+        hours: 0.5,
+        done: false
+      });
+    }
+
+    render({
+      exam, category, dailyHours, deadline, days
+    });
   });
 
-  section.querySelector("#exam-reset").addEventListener("click", () => {
+  $("exam-reset").addEventListener("click", () => {
     form.reset();
+    $("official-source-box").hidden = true;
     form.hidden = false;
     roadmap.hidden = true;
-    planner.scrollIntoView({ behavior: "smooth" });
+    try {
+      localStorage.removeItem(storageKey);
+    } catch (error) {
+      console.error(error);
+    }
   });
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (saved && Array.isArray(saved.days)) {
+      planner.hidden = false;
+      render(saved);
+    }
+  } catch (error) {
+    console.warn("Saved roadmap could not be restored.");
+  }
 })();
+
+
+
 </script>
 <!-- END AVORA EXAM PREPARATION -->
 
