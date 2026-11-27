@@ -718,6 +718,46 @@ body::before {
     });
 
     initialiseFlagsmith();
+function findScholarships() {
+  const level = document.getElementById("studyLevel").value;
+  const state = document.getElementById("studyState").value;
+  const results = document.getElementById("scholarshipResults");
+
+  if (!level || !state) {
+    results.textContent = "Please select your study level and state first.";
+    return;
+  }
+
+  let levelText = "";
+
+  if (level === "school") {
+    levelText = "Class 9–10";
+  } else if (level === "senior") {
+    levelText = "Class 11–12";
+  } else {
+    levelText = "College / University";
+  }
+
+  let stateText = state === "up"
+    ? "Uttar Pradesh"
+    : "your selected state";
+
+  results.innerHTML = `
+    <div style="margin-top:20px; padding:16px; border-radius:12px; background:rgba(128,85,223,0.15);">
+      <h3>🎓 Your Scholarship Search Guide</h3>
+      <p>Study level: <strong>${levelText}</strong></p>
+      <p>Study location: <strong>${stateText}</strong></p>
+      <p>Next steps:</p>
+      <ul>
+        <li>Open the official National Scholarship Portal.</li>
+        <li>Check scholarships available for your study level.</li>
+        <li>Read the current eligibility rules and deadlines.</li>
+        <li>Apply only through the official application link.</li>
+      </ul>
+    </div>
+  `;
+}
+
   </script>
 
 <!-- AVORA: EXAM PREPARATION -->
