@@ -522,6 +522,58 @@ body::before {
       <option value="college">College / University</option>
     </select>
 
+<section class="scholarship-finder" id="college-admission-finder">
+  <div class="section-head">
+    <h2>🏛️ Smart College Admission Finder</h2>
+    <p>Explore courses, colleges and admission pathways.</p>
+  </div>
+
+  <div class="finder-box">
+    <label for="admissionLevel">Your current education level</label>
+    <select id="admissionLevel">
+      <option value="">Select your level</option>
+      <option>Class 10</option>
+      <option>Class 12</option>
+      <option>Undergraduate</option>
+      <option>Postgraduate</option>
+    </select>
+
+    <label for="admissionInterest">What do you want to study?</label>
+    <select id="admissionInterest">
+      <option value="">Select your course</option>
+      <option>Engineering</option>
+      <option>Medical</option>
+      <option>Arts & Humanities</option>
+      <option>Commerce & Management</option>
+      <option>Science</option>
+      <option>Law</option>
+      <option>Computer Science & IT</option>
+      <option>Other</option>
+    </select>
+
+    <label for="admissionLocation">Preferred study location</label>
+    <select id="admissionLocation">
+      <option value="">Select location</option>
+      <option>India</option>
+      <option>Abroad</option>
+      <option>Any location</option>
+    </select>
+
+    <button type="button" onclick="findColleges()">
+      Explore Admission Options ↗
+    </button>
+
+    <div id="admissionResults" aria-live="polite"></div>
+
+    <p class="finder-note">
+      Admission dates, eligibility and entrance requirements
+      must be verified on official college and examination websites.
+    </p>
+  </div>
+</section>
+
+
+
     <label for="studyState">Which state do you study in?</label>
     <select id="studyState">
       <option value="">Select your state</option>
