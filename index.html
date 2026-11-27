@@ -940,6 +940,66 @@ function findInternships() {
 }
 
 
+function findColleges() {
+  const level = document.getElementById("admissionLevel").value;
+  const course = document.getElementById("admissionInterest").value;
+  const location = document.getElementById("admissionLocation").value;
+  const results = document.getElementById("admissionResults");
+
+  if (!level || !course || !location) {
+    results.textContent = "Please select all three options first.";
+    return;
+  }
+
+  let links = [];
+
+  if (location === "India" || location === "Any location") {
+    if (course === "Engineering") {
+      links.push(["JoSAA — Engineering Admissions", "https://josaa.nic.in/"]);
+    }
+
+    if (course === "Medical") {
+      links.push(["NEET — National Testing Agency", "https://exams.nta.ac.in/NEET/"]);
+    }
+
+    if (course === "Arts & Humanities" || course === "Commerce & Management" || course === "Science") {
+      links.push(["CUET — Common University Entrance Test", "https://cuet.nta.nic.in/"]);
+    }
+
+    if (course === "Law") {
+      links.push(["CLAT — Consortium of NLUs", "https://consortiumofnlus.ac.in/"]);
+    }
+
+    if (course === "Computer Science & IT" || course === "Other") {
+      links.push(["UGC — University Information", "https://www.ugc.gov.in/"]);
+    }
+  }
+
+  if (location === "Abroad" || location === "Any location") {
+    links.push(["USA — EducationUSA", "https://educationusa.state.gov/"]);
+    links.push(["UK — UCAS", "https://www.ucas.com/"]);
+    links.push(["Australia — Study Australia", "https://www.studyaustralia.gov.au/"]);
+  }
+
+  let linkHTML = links.map(function(item) {
+    return `<p><a href="${item[1]}" target="_blank" rel="noopener noreferrer">${item[0]} ↗</a></p>`;
+  }).join("");
+
+  results.innerHTML = `
+    <div style="margin-top:20px;padding:16px;border-radius:12px;background:rgba(128,85,223,0.15);">
+      <h3>🏛️ Your Admission Search</h3>
+      <p>Education: <strong>${level}</strong></p>
+      <p>Course: <strong>${course}</strong></p>
+      <p>Location: <strong>${location}</strong></p>
+      <h4>Official Admission Resources</h4>
+      ${linkHTML}
+      <p>Check course eligibility, admission dates and application requirements on each official website.</p>
+    </div>
+  `;
+}
+
+
+
 
   </script>
 
