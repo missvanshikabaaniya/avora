@@ -605,6 +605,48 @@ body::before {
     </p>
   </div>
 </section>
+ 
+<section class="scholarship-finder" id="internship-finder">
+  <div class="section-head">
+    <h2>💼 Smart Internship Finder</h2>
+    <p>Explore internship opportunities and build practical skills.</p>
+  </div>
+
+  <div class="finder-box">
+    <label for="internshipLevel">Your education level</label>
+    <select id="internshipLevel">
+      <option value="">Select your level</option>
+      <option>Class 9–10</option>
+      <option>Class 11–12</option>
+      <option>Undergraduate</option>
+      <option>Postgraduate</option>
+      <option>Other</option>
+    </select>
+
+    <label for="internshipInterest">Your area of interest</label>
+    <select id="internshipInterest">
+      <option value="">Select your interest</option>
+      <option>Computer Science & IT</option>
+      <option>AI & Data Science</option>
+      <option>Business & Management</option>
+      <option>Design & Media</option>
+      <option>Science & Research</option>
+      <option>Other</option>
+    </select>
+
+    <button type="button" onclick="findInternships()">
+      Explore Internships ↗
+    </button>
+
+    <div id="internshipResults" aria-live="polite"></div>
+
+    <p class="finder-note">
+      Check each opportunity's age, education and eligibility requirements.
+      Never pay an unverified person for an internship.
+    </p>
+  </div>
+</section>
+ 
 
 
   <section class="section" id="explore">
