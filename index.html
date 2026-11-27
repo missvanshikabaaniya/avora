@@ -352,5 +352,298 @@
 
     initialiseFlagsmith();
   </script>
+
+<!-- AVORA: EXAM PREPARATION -->
+<section id="avora-exam" class="avora-exam">
+  <div class="exam-heading">
+    <span class="exam-tag">NEW • LEARN & GROW</span>
+    <h2>Exam Preparation</h2>
+    <p>Your goals. Your pace. Your preparation journey.</p>
+  </div>
+
+  <div class="exam-grid">
+    <button class="exam-card" data-category="School Exams">
+      <span>📚</span>
+      <h3>School Exams</h3>
+      <p>CBSE, ICSE and State Boards</p>
+    </button>
+
+    <button class="exam-card" data-category="Entrance Exams">
+      <span>🎯</span>
+      <h3>Entrance Exams</h3>
+      <p>JEE, NEET, CUET and more</p>
+    </button>
+
+    <button class="exam-card" data-category="Government Exams">
+      <span>🏛️</span>
+      <h3>Government Exams</h3>
+      <p>UPSC, SSC, Banking and more</p>
+    </button>
+
+    <button class="exam-card" data-category="Other Exams">
+      <span>✨</span>
+      <h3>Other Exams</h3>
+      <p>Plan for any other exam</p>
+    </button>
+  </div>
+
+  <div class="exam-actions">
+    <button id="open-exam-planner" class="exam-primary">
+      Open Guided Study Planner →
+    </button>
+  </div>
+
+  <div id="exam-planner" class="exam-planner" hidden>
+    <h3>Build Your Study Roadmap</h3>
+    <p>Tell Avora a little about your preparation.</p>
+
+    <form id="exam-form">
+      <label for="exam-category">Exam category</label>
+      <select id="exam-category" required>
+        <option value="">Choose a category</option>
+        <option>School Exams</option>
+        <option>Entrance Exams</option>
+        <option>Government Exams</option>
+        <option>Other Exams</option>
+      </select>
+
+      <label for="exam-name">Which exam are you preparing for?</label>
+      <input id="exam-name" type="text"
+        placeholder="e.g. Class 10 CBSE, JEE, NEET" required>
+
+      <label for="exam-date">Exam date (optional)</label>
+      <input id="exam-date" type="date">
+
+      <label for="exam-subjects">Your subjects or topics</label>
+      <textarea id="exam-subjects"
+        placeholder="e.g. Maths, Science, English"
+        rows="3" required></textarea>
+
+      <button type="submit" class="exam-primary">
+        Create My Roadmap →
+      </button>
+    </form>
+
+    <div id="exam-roadmap" hidden>
+      <h3>Your Preparation Checklist</h3>
+      <p id="exam-summary"></p>
+      <div class="exam-progress">
+        <div id="exam-progress-fill"></div>
+      </div>
+      <p id="exam-progress-text">0% completed</p>
+      <div id="exam-tasks"></div>
+      <button id="exam-reset" class="exam-secondary" type="button">
+        Create another roadmap
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+.avora-exam {
+  padding: 65px 20px;
+  margin: 35px auto;
+  max-width: 1100px;
+  color: #f5f1ff;
+  font-family: inherit;
+}
+.exam-heading { text-align: center; margin-bottom: 32px; }
+.exam-tag {
+  color: #c4a5ff;
+  letter-spacing: 2px;
+  font-size: 12px;
+}
+.exam-heading h2 {
+  font-size: clamp(28px, 5vw, 42px);
+  margin: 12px 0;
+}
+.exam-heading p, .exam-planner > p {
+  color: #b8afca;
+}
+.exam-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+.exam-card {
+  text-align: left;
+  padding: 24px;
+  min-height: 155px;
+  border: 1px solid #49366b;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #211832, #11101d);
+  color: white;
+  cursor: pointer;
+  transition: .2s ease;
+}
+.exam-card:hover, .exam-card:focus-visible {
+  border-color: #b18aff;
+  transform: translateY(-3px);
+}
+.exam-card span { font-size: 30px; }
+.exam-card h3 { margin: 15px 0 7px; }
+.exam-card p { color: #b8afca; margin: 0; }
+.exam-actions { text-align: center; margin: 28px 0; }
+.exam-primary, .exam-secondary {
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.exam-primary {
+  color: white;
+  background: linear-gradient(100deg, #8053dc, #aa68e8);
+}
+.exam-secondary {
+  color: white;
+  background: #33254a;
+  margin-top: 20px;
+}
+.exam-planner {
+  max-width: 650px;
+  margin: 35px auto 0;
+  padding: 25px;
+  border: 1px solid #49366b;
+  border-radius: 20px;
+  background: #171322;
+}
+.exam-planner label {
+  display: block;
+  margin: 18px 0 8px;
+}
+.exam-planner input, .exam-planner select,
+.exam-planner textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px;
+  border-radius: 10px;
+  border: 1px solid #514269;
+  background: #0f0c18;
+  color: white;
+  font: inherit;
+}
+.exam-planner form button { margin-top: 22px; width: 100%; }
+.exam-progress {
+  height: 9px;
+  background: #342944;
+  border-radius: 20px;
+  overflow: hidden;
+}
+#exam-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #aa78f4;
+  transition: width .25s;
+}
+.exam-task {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 13px;
+  margin: 10px 0;
+  border-radius: 10px;
+  background: #241b33;
+}
+.exam-task input { width: auto; margin-top: 4px; }
+.exam-task label { margin: 0; }
+@media(max-width: 500px) {
+  .avora-exam { padding: 40px 14px; }
+  .exam-planner { padding: 18px; }
+}
+</style>
+
+<script>
+(() => {
+  const section = document.getElementById("avora-exam");
+  if (!section || section.dataset.ready) return;
+  section.dataset.ready = "true";
+
+  const planner = section.querySelector("#exam-planner");
+  const category = section.querySelector("#exam-category");
+  const form = section.querySelector("#exam-form");
+  const roadmap = section.querySelector("#exam-roadmap");
+  const tasks = section.querySelector("#exam-tasks");
+
+  section.querySelectorAll(".exam-card").forEach(card => {
+    card.addEventListener("click", () => {
+      category.value = card.dataset.category;
+      planner.hidden = false;
+      planner.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  section.querySelector("#open-exam-planner")
+    .addEventListener("click", () => {
+      planner.hidden = false;
+      planner.scrollIntoView({ behavior: "smooth" });
+    });
+
+  function updateProgress() {
+    const boxes = [...tasks.querySelectorAll("input[type=checkbox]")];
+    const completed = boxes.filter(box => box.checked).length;
+    const percent = Math.round(completed / boxes.length * 100);
+
+    section.querySelector("#exam-progress-fill").style.width =
+      percent + "%";
+    section.querySelector("#exam-progress-text").textContent =
+      percent + "% completed (" + completed + "/" +
+      boxes.length + " tasks)";
+  }
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const exam = section.querySelector("#exam-name").value.trim();
+    const subjectText = section.querySelector("#exam-subjects").value.trim();
+    const subjects = subjectText.split(",").map(s => s.trim()).filter(Boolean);
+
+    if (!exam || !subjects.length) return;
+
+    section.querySelector("#exam-summary").textContent =
+      exam + " • " + category.value;
+
+    const taskNames = [
+      "Find and review the official syllabus",
+      "Divide subjects into smaller topics",
+      "Create a weekly study timetable",
+      "Study and practise one topic at a time",
+      "Revise completed topics and review progress"
+    ];
+
+    tasks.replaceChildren();
+
+    taskNames.forEach((task, index) => {
+      const row = document.createElement("div");
+      row.className = "exam-task";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = "avora-task-" + index;
+      checkbox.addEventListener("change", updateProgress);
+
+      const label = document.createElement("label");
+      label.htmlFor = checkbox.id;
+      label.textContent = task;
+
+      row.append(checkbox, label);
+      tasks.append(row);
+    });
+
+    form.hidden = true;
+    roadmap.hidden = false;
+    updateProgress();
+  });
+
+  section.querySelector("#exam-reset").addEventListener("click", () => {
+    form.reset();
+    form.hidden = false;
+    roadmap.hidden = true;
+    planner.scrollIntoView({ behavior: "smooth" });
+  });
+})();
+</script>
+<!-- END AVORA EXAM PREPARATION -->
+
 </body>
 </html>
