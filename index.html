@@ -673,17 +673,20 @@ Format: Subject | Chapter | Hours | Priority (High/Medium/Low)
     }
   }
 
-  function render(plan) {
-    tasksBox.replaceChildren();
+  
 
-    $("exam-summary").textContent =
-      plan.exam + " • " + plan.category +
-      " • " + plan.dailyHours + " hours/day";
+function render(plan) {
+  const scriptView = $("exam-script-view");
+  const paperView = $("exam-paper-content");
+  const checklistView = $("exam-checklist-view");
+
+  function buildDays(container, viewName) {
+    container.replaceChildren();
 
     plan.days.forEach((day, index) => {
       const heading = document.createElement("h4");
       heading.textContent = "Day " + (index + 1) + " • " + day.date;
-      tasksBox.append(heading);
+      container.append(heading);
 
       day.tasks.forEach((task, taskIndex) => {
         const row = document.createElement("div");
@@ -692,7 +695,8 @@ Format: Subject | Chapter | Hours | Priority (High/Medium/Low)
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = task.done;
-        checkbox.id = "avora-task-" + index + "-" + taskIndex;
+        checkbox.id =
+          "avora-" + viewName + "-" + index + "-" + taskIndex;
 
         const label = document.createElement("label");
         label.htmlFor = checkbox.id;
@@ -702,17 +706,48 @@ Format: Subject | Chapter | Hours | Priority (High/Medium/Low)
         checkbox.addEventListener("change", () => {
           task.done = checkbox.checked;
           update(plan);
+          render(plan);
         });
 
         row.append(checkbox, label);
-        tasksBox.append(row);
+        container.append(row);
       });
     });
-
-    form.hidden = true;
-    roadmap.hidden = false;
-    update(plan);
   }
+
+  $("exam-summary").textContent =
+    plan.exam + " • " + plan.category +
+    " • " + plan.dailyHours + " hours/day";
+
+  buildDays(tasksBox, "checklist");
+  buildDays(scriptView, "script");
+  buildDays(paperView, "paper");
+
+  scriptView.hidden = true;
+  $("exam-paper-view").hidden = true;
+  checklistView.hidden = false;
+
+  document.querySelectorAll("[data-exam-view]").forEach(button => {
+    button.onclick = () => {
+      const view = button.dataset.examView;
+
+      scriptView.hidden = view !== "script";
+      $("exam-paper-view").hidden = view !== "paper";
+      checklistView.hidden = view !== "checklist";
+    };
+  });
+
+  $("exam-print").onclick = () => {
+    window.print();
+  };
+
+  form.hidden = true;
+  roadmap.hidden = false;
+
+  update(plan);
+}
+
+
 
   form.addEventListener("submit", event => {
     event.preventDefault();
