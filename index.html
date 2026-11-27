@@ -728,6 +728,53 @@ body::before {
     </div>
   </section>
 
+
+<section id="guided-assistant" class="guided-assistant">
+  <h2>🤖 Avora Guided Application Assistant</h2>
+  <p>Get step-by-step help with your application journey.</p>
+
+  <label for="assistantCategory">What do you need help with?</label>
+  <select id="assistantCategory">
+    <option value="scholarships">🎓 Scholarship</option>
+    <option value="internships">💼 Internship</option>
+    <option value="admissions">🏛️ College Admission</option>
+  </select>
+
+  <div class="assistant-modes">
+    <button type="button" onclick="startGuidedAssistant()">
+      Guided Mode
+    </button>
+    <button type="button" onclick="openAssistantChat()">
+      Chat Mode
+    </button>
+  </div>
+
+  <div id="guidedPanel" style="display:none;">
+    <h3 id="guidedTitle"></h3>
+    <p id="guidedStep"></p>
+    <p id="guidedProgress"></p>
+    <button type="button" onclick="previousGuidedStep()">← Back</button>
+    <button type="button" onclick="nextGuidedStep()">Next →</button>
+  </div>
+
+  <div id="assistantChat" style="display:none;">
+    <h3>💬 Ask Avora</h3>
+    <div id="chatMessages" aria-live="polite"></div>
+
+    <label for="assistantQuestion">Your question</label>
+    <input
+      id="assistantQuestion"
+      type="text"
+      placeholder="Ask about documents, eligibility..."
+    >
+
+    <button type="button" onclick="sendAssistantMessage()">
+      Send
+    </button>
+  </div>
+</section>
+
+
   <section class="banner" id="about">
     <div class="tag">YOUR JOURNEY STARTS HERE</div>
     <h2>Big dreams. <span class="gradient">Clearer steps.</span></h2>
