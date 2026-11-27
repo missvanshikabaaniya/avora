@@ -860,6 +860,35 @@ function findScholarships() {
   `;
 }
 
+function findInternships() {
+  const level = document.getElementById("internshipLevel").value;
+  const interest = document.getElementById("internshipInterest").value;
+  const results = document.getElementById("internshipResults");
+
+  if (!level || !interest) {
+    results.textContent = "Please select your education level and interest.";
+    return;
+  }
+
+  results.innerHTML = `
+    <div style="margin-top:20px;padding:16px;border-radius:12px;background:rgba(128,85,223,0.15);">
+      <h3>💼 Your Internship Search</h3>
+      <p>Education: <strong>${level}</strong></p>
+      <p>Interest: <strong>${interest}</strong></p>
+      <p>Explore opportunities on the official portal:</p>
+      <p>
+        <a href="https://internship.aicte-india.org/internships"
+           target="_blank" rel="noopener noreferrer">
+          Browse AICTE Internships ↗
+        </a>
+      </p>
+      <p>Check age, education and eligibility requirements before applying.</p>
+    </div>
+  `;
+}
+
+
+
   </script>
 
 <!-- AVORA: EXAM PREPARATION -->
