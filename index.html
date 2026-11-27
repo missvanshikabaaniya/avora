@@ -414,10 +414,49 @@
       <label for="exam-date">Exam date (optional)</label>
       <input id="exam-date" type="date">
 
-      <label for="exam-subjects">Your subjects or topics</label>
-      <textarea id="exam-subjects"
-        placeholder="e.g. Maths, Science, English"
-        rows="3" required></textarea>
+     
+<label for="exam-subjects">Your subjects</label>
+<input id="exam-subjects"
+  type="text"
+  placeholder="e.g. Maths, Science, English"
+  required>
+
+<label for="syllabus-mode">Choose syllabus source</label>
+<select id="syllabus-mode" required>
+  <option value="manual">Manual syllabus entry</option>
+  <option value="official">Official syllabus reference</option>
+</select>
+
+<div id="official-source-box" hidden>
+  <label for="official-syllabus-url">Official syllabus URL</label>
+  <input id="official-syllabus-url"
+    type="url"
+    placeholder="Paste official syllabus link">
+</div>
+
+<label for="chapter-list">
+  Chapters and estimated study hours
+</label>
+<textarea id="chapter-list" rows="6"
+  placeholder="Enter one chapter per line:
+Maths | Real Numbers | 3 | High
+Maths | Polynomials | 4 | Medium
+Science | Chemical Reactions | 3 | High"
+  required></textarea>
+
+<small>
+Format: Subject | Chapter | Hours | Priority (High/Medium/Low)
+</small>
+
+<label for="daily-hours">Available study hours per day</label>
+<input id="daily-hours"
+  type="number"
+  min="0.5"
+  max="12"
+  step="0.5"
+  value="2"
+  required>
+
 
       <button type="submit" class="exam-primary">
         Create My Roadmap →
