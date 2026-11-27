@@ -463,19 +463,49 @@ Format: Subject | Chapter | Hours | Priority (High/Medium/Low)
       </button>
     </form>
 
-    <div id="exam-roadmap" hidden>
-      <h3>Your Preparation Checklist</h3>
-      <p id="exam-summary"></p>
-      <div class="exam-progress">
-        <div id="exam-progress-fill"></div>
-      </div>
-      <p id="exam-progress-text">0% completed</p>
-      <div id="exam-tasks"></div>
-      <button id="exam-reset" class="exam-secondary" type="button">
-        Create another roadmap
-      </button>
-    </div>
+    
+
+<div id="exam-roadmap" hidden>
+  <h3>Your Smart Roadmap</h3>
+  <p id="exam-summary"></p>
+
+  <div class="exam-view-buttons">
+    <button type="button" data-exam-view="script">
+      Smart Script
+    </button>
+    <button type="button" data-exam-view="paper">
+      Paper Style
+    </button>
+    <button type="button" data-exam-view="checklist">
+      Checklist
+    </button>
   </div>
+
+  <div id="exam-script-view" hidden></div>
+
+  <div id="exam-paper-view" hidden>
+    <button id="exam-print" type="button">
+      Print / Save as PDF
+    </button>
+    <div id="exam-paper-content"></div>
+  </div>
+
+  <div id="exam-checklist-view">
+    <h3>Your Preparation Checklist</h3>
+    <div class="exam-progress">
+      <div id="exam-progress-fill"></div>
+    </div>
+    <p id="exam-progress-text">0% completed</p>
+    <div id="exam-tasks"></div>
+  </div>
+
+  <button id="exam-reset" class="exam-secondary" type="button">
+    Create another roadmap
+  </button>
+</div>
+</div>
+
+
 </section>
 
 <style>
