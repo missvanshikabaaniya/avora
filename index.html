@@ -1046,7 +1046,91 @@ function findColleges() {
 }
 
 
+let assistantStepIndex = 0;
+let assistantCurrentSteps = [];
 
+function startGuidedAssistant() {
+  const category = document.getElementById("assistantCategory").value;
+  const item = data[category];
+
+  assistantStepIndex = 0;
+  assistantCurrentSteps = item.steps;
+
+  document.getElementById("guidedPanel").style.display = "block";
+  document.getElementById("assistantChat").style.display = "none";
+  document.getElementById("guidedTitle").textContent = item.title;
+
+  updateGuidedStep();
+}
+
+function updateGuidedStep() {
+  document.getElementById("guidedStep").textContent =
+    assistantCurrentSteps[assistantStepIndex];
+
+  document.getElementById("guidedProgress").textContent =
+    "Step " + (assistantStepIndex + 1) +
+    " of " + assistantCurrentSteps.length;
+}
+
+function nextGuidedStep() {
+  if (assistantStepIndex < assistantCurrentSteps.length - 1) {
+    assistantStepIndex++;
+    updateGuidedStep();
+  } else {
+    document.getElementById("guidedStep").textContent =
+      "🎉 You have completed this guidance roadmap! Check the official requirements before applying.";
+  }
+}
+
+function previousGuidedStep() {
+  if (assistantStepIndex > 0) {
+    assistantStepIndex--;
+    updateGuidedStep();
+  }
+}
+
+function openAssistantChat() {
+  document.getElementById("assistantChat").style.display = "block";
+  document.getElementById("guidedPanel").style.display = "none";
+}
+
+function sendAssistantMessage() {
+  const input = document.getElementById("assistantQuestion");
+  const question = input.value.trim().toLowerCase();
+  const messages = document.getElementById("chatMessages");
+
+  if (!question) return;
+
+  const category = document.getElementById("assistantCategory").value;
+
+  const userMessage = document.createElement("p");
+  userMessage.textContent = "You: " + input.value;
+  messages.appendChild(userMessage);
+
+  let answer = "";
+
+  if (question.includes("document")) {
+    answer = "Check the official application guidelines for the required documents. Requirements vary by opportunity.";
+  } else if (question.includes("eligibility") || question.includes("eligible")) {
+    answer = "Read the official eligibility criteria carefully. Your education level, age and other conditions may matter.";
+  } else if (question.includes("deadline") || question.includes("last date")) {
+    answer = "Check the latest deadline on the official portal. Do not rely on outdated dates.";
+  } else if (question.includes("apply") || question.includes("application")) {
+    answer = "Start by reviewing the requirements, preparing documents and applying through the official website.";
+  } else if (question.includes("resume") || question.includes("cv")) {
+    answer = category === "internships"
+      ? "Prepare a clear resume with your education, skills, projects and relevant experience."
+      : "A resume may not be required for every opportunity. Check the official instructions.";
+  } else {
+    answer = "I can guide you with documents, eligibility, deadlines and application steps. Try asking one of these questions.";
+  }
+
+  const botMessage = document.createElement("p");
+  botMessage.textContent = "Avora: " + answer;
+  messages.appendChild(botMessage);
+
+  input.value = "";
+}
 
   </script>
 
