@@ -120,6 +120,22 @@ backdrop-filter: blur(18px);
       border-radius: 9px; font-weight: 700; cursor: pointer;
     }
     .section { padding: 75px 8%; }
+.section {
+  position: relative;
+  z-index: 1;
+}
+
+.section-head h2 {
+  background: linear-gradient(90deg, #ffffff, #c4adff, #8dbaff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-head p {
+  color: #b8b0cc;
+}
+
     .section-head { text-align: center; margin-bottom: 38px; }
     .section-head h2 { font-size: 35px; letter-spacing: -1px; }
     .section-head p { color: var(--muted); margin-top: 12px; font-size: 14px; }
