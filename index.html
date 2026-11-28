@@ -1030,19 +1030,21 @@ featureBox.style.display = "none";
 
         // The JS SDK returns the flag value directly. Experiment enrolment is
         // handled internally by getExperimentFlag; do not test a .experiment property here.
+
         const isGuidedVariant = Boolean(
-          experimentFlag &&
-          experimentFlag.enabled === true &&
-          experimentFlag.value === "guided"
-        );
-const guidedAssistant = document.getElementById("guided-assistant");
+  experimentFlag &&
+  experimentFlag.enabled === true &&
+  experimentFlag.value === "guided" &&
+  experimentFlag.experiment &&
+  experimentFlag.experiment.inExperiment === true
+);
 
 if (guidedAssistant) {
   guidedAssistant.style.display = isGuidedVariant ? "block" : "none";
 }
 
-featureBox.style.display = "block";
-       
+featureBox.style.display = isGuidedVariant ? "block" : "none";
+
         console.log("Avora experiment result:", {
           enabled: experimentFlag ? experimentFlag.enabled : null,
           value: experimentFlag ? experimentFlag.value : null,
