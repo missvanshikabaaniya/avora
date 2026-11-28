@@ -1203,48 +1203,141 @@ function previousGuidedStep() {
   }
 }
 
-function openAssistantChat() {
-  document.getElementById("assistantChat").style.display = "block";
-  document.getElementById("guidedPanel").style.display = "none";
-}
+function openAssistantChat() 
+
+
+let assistantChatProgress = {};
 
 function sendAssistantMessage() {
   const input = document.getElementById("assistantQuestion");
-  const question = input.value.trim().toLowerCase();
+  const question = input.value.trim();
   const messages = document.getElementById("chatMessages");
+  const category = document.getElementById("assistantCategory").value;
 
   if (!question) return;
 
-  const category = document.getElementById("assistantCategory").value;
-
-  const userMessage = document.createElement("p");
-  userMessage.textContent = "You: " + input.value;
-  messages.appendChild(userMessage);
-
-  let answer = "";
-
-  if (question.includes("document")) {
-    answer = "Check the official application guidelines for the required documents. Requirements vary by opportunity.";
-  } else if (question.includes("eligibility") || question.includes("eligible")) {
-    answer = "Read the official eligibility criteria carefully. Your education level, age and other conditions may matter.";
-  } else if (question.includes("deadline") || question.includes("last date")) {
-    answer = "Check the latest deadline on the official portal. Do not rely on outdated dates.";
-  } else if (question.includes("apply") || question.includes("application")) {
-    answer = "Start by reviewing the requirements, preparing documents and applying through the official website.";
-  } else if (question.includes("resume") || question.includes("cv")) {
-    answer = category === "internships"
-      ? "Prepare a clear resume with your education, skills, projects and relevant experience."
-      : "A resume may not be required for every opportunity. Check the official instructions.";
-  } else {
-    answer = "I can guide you with documents, eligibility, deadlines and application steps. Try asking one of these questions.";
+  function addMessage(sender, text) {
+    const p = document.createElement("p");
+    p.textContent = sender + ": " + text;
+    messages.appendChild(p);
+    messages.scrollTop = messages.scrollHeight;
   }
 
-  const botMessage = document.createElement("p");
-  botMessage.textContent = "Avora: " + answer;
-  messages.appendChild(botMessage);
-
+  addMessage("You", question);
   input.value = "";
+
+  const questionSets = {
+    scholarships: [
+      "Tum abhi kis class mein ho ya kaunsa course kar rahe ho?",
+      "Tum kis state se ho?",
+      "Tumhare latest marks ya percentage kitne hain?",
+      "Family ki approximate annual income kitni hai?",
+      "Kya tum apni category batana chahoge? (General/OBC/SC/ST/Other — optional)"
+    ],
+    admissions: [
+      "Tum abhi kis class mein ho ya kaunsi qualification complete ki hai?",
+      "Kaunsa course karna chahte ho? (Engineering, Medical, Law, Arts etc.)",
+      "Tumhare marks ya expected percentage kitne hain?",
+      "Kis state ya location mein admission chahiye?"
+    ],
+    internships: [
+      "Tum abhi kya study kar rahe ho?",
+      "Kis field mein internship chahiye?",
+      "Tumhari skills ya experience kya hain?",
+      "Online internship chahiye ya apne city mein?"
+    ]
+  };
+
+  let progress = assistantChatProgress[category];
+
+  if (!progress || progress.completed) {
+    progress = {
+      step: 0,
+      answers: [],
+      completed: false
+    };
+
+    assistantChatProgress[category] = progress;
+
+    addMessage(
+      "Avora",
+      "Sure! 😊 Main tumhare liye relevant options shortlist karne ki koshish karunga. Pehle kuch details samajhte hain."
+    );
+
+    addMessage("Avora", questionSets[category][0]);
+    return;
+  }
+
+  progress.answers.push(question);
+  progress.step++;
+
+  if (progress.step < questionSets[category].length) {
+    addMessage("Avora", questionSets[category][progress.step]);
+    return;
+  }
+
+  progress.completed = true;
+
+  const details = progress.answers.join(" ").toLowerCase();
+  let answer = "";
+
+  if (category === "scholarships") {
+    answer =
+      "🎓 Tumhari details ke basis par ye scholarship options explore karo:\n\n" +
+      "1. National Scholarship Portal (NSP) par available schemes.\n" +
+      "2. UP Postmatric Scholarship — agar UP domicile aur scheme ki conditions match karti hain.\n" +
+      "3. Central Sector Scheme of Scholarship (CSSS) — Class 12 board performance aur other conditions match hone par.\n\n" +
+      "Official links:\n" +
+      "NSP: https://scholarships.gov.in/All-Scholarships\n" +
+      "UP Portal: https://scholarship.up.gov.in/\n\n" +
+      "Ye initial suggestions hain, confirmed eligibility nahi. Har scheme ki current conditions check karna.";
+  }
+
+  else if (category === "admissions") {
+    answer =
+      "🏛️ Tumhare course interest ke according ye admission routes explore karo:\n\n";
+
+    if (details.includes("engineer") || details.includes("b.tech") || details.includes("btech")) {
+      answer += "1. JoSAA counselling — Engineering admissions.\n";
+    }
+
+    if (details.includes("medical") || details.includes("mbbs") || details.includes("neet")) {
+      answer += "1. NEET UG — Medical admissions.\n";
+    }
+
+    if (details.includes("law") || details.includes("clat")) {
+      answer += "1. CLAT — Participating law universities.\n";
+    }
+
+    answer +=
+      "2. CUET — Participating universities ke courses.\n\n" +
+      "Official links:\n" +
+      "JoSAA: https://josaa.nic.in/\n" +
+      "CUET: https://exams.nta.ac.in/CUET-UG/\n" +
+      "NEET: https://exams.nta.ac.in/NEET/\n" +
+      "CLAT: https://consortiumofnlus.ac.in/\n\n" +
+      "Course, marks aur admission rules ke hisaab se options verify karna.";
+  }
+
+  else {
+    answer =
+      "💼 Tumhari interests ke according ye internship resources explore karo:\n\n" +
+      "1. AICTE Internship Portal — student internship opportunities.\n" +
+      "2. National Career Service — career aur opportunity resources.\n\n" +
+      "Official links:\n" +
+      "AICTE: https://internship.aicte-india.org/\n" +
+      "NCS: https://www.ncs.gov.in/\n\n" +
+      "Har listing ki eligibility, availability aur deadline official page par check karna.";
+  }
+
+  addMessage("Avora", answer);
+  addMessage(
+    "Avora",
+    "Kya tum kisi suggested option ke baare mein aur detail jaana chahte ho? 😊"
+  );
 }
+
+
 
   </script>
 
