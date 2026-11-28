@@ -1009,6 +1009,12 @@ body::before {
           experimentFlag.enabled === true &&
           experimentFlag.value === "guided"
         );
+const guidedAssistant = document.getElementById("guided-assistant");
+
+if (guidedAssistant) {
+  guidedAssistant.style.display = isGuidedVariant ? "block" : "none";
+}
+
 
        featureBox.style.display = "block";
 
