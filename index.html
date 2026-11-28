@@ -1009,8 +1009,8 @@ function openGuidedSteps() {
 
     async function initialiseFlagsmith() {
       const featureBox = document.getElementById("flagsmith-feature");
-      featureBox.style.display = isGuidedVariant ? "block" : "none";
-
+       
+featureBox.style.display = "none";
       try {
         if (!window.flagsmith) {
           throw new Error("Flagsmith SDK did not load. Check the SDK script connection.");
@@ -1041,9 +1041,8 @@ if (guidedAssistant) {
   guidedAssistant.style.display = isGuidedVariant ? "block" : "none";
 }
 
-
-       featureBox.style.display = "block";
-
+featureBox.style.display = isGuidedVariant ? "block" : "none";
+       
         console.log("Avora experiment result:", {
           enabled: experimentFlag ? experimentFlag.enabled : null,
           value: experimentFlag ? experimentFlag.value : null,
