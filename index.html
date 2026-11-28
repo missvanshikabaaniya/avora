@@ -1203,7 +1203,12 @@ function previousGuidedStep() {
   }
 }
 
-function openAssistantChat() 
+
+function openAssistantChat() {
+  document.getElementById("assistantChat").style.display = "block";
+  document.getElementById("guidedPanel").style.display = "none";
+}
+
 
 
 let assistantChatProgress = {};
