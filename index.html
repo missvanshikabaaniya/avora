@@ -956,12 +956,38 @@ body::before {
       else alert("Try searching scholarships, colleges or internships.");
     }
 
-    function openGuidedSteps() {
-      document.getElementById("explore").scrollIntoView({ behavior: "smooth" });
-      if (window.flagsmith && typeof flagsmith.trackEvent === "function") {
-        flagsmith.trackEvent("guided_assistant_clicked");
-      }
-    }
+    
+
+function openGuidedSteps() {
+  const assistant = document.getElementById("guided-assistant");
+
+  if (!assistant) {
+    alert("Guided Assistant is currently unavailable.");
+    return;
+  }
+
+  // Respect the A/B experiment assignment.
+  if (assistant.style.display === "none") {
+    alert("Guided Assistant is not enabled for this visit.");
+    return;
+  }
+
+  assistant.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+  // Open Guided Mode automatically.
+  if (typeof startGuidedAssistant === "function") {
+    startGuidedAssistant();
+  }
+
+  // Track the interaction in Flagsmith.
+  if (window.flagsmith && typeof flagsmith.track === "function") {
+    flagsmith.track("guided_assistant_clicked");
+  }
+}
+
 
     function getAnonymousVisitorId() {
       const storageKey = "avora_visitor_id";
