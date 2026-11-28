@@ -1009,7 +1009,7 @@ function openGuidedSteps() {
 
     async function initialiseFlagsmith() {
       const featureBox = document.getElementById("flagsmith-feature");
-      featureBox.style.display = "none";
+      featureBox.style.display = isGuidedVariant ? "block" : "none";
 
       try {
         if (!window.flagsmith) {
